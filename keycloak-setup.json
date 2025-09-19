@@ -33,15 +33,27 @@
     "realm": [
       {
         "name": "USER",
-        "description": "Regular user role"
+        "description": "Regular user role - can view products and basic operations"
       },
       {
         "name": "ADMIN",
-        "description": "Administrator role"
+        "description": "Administrator role - full access to all operations"
       },
       {
         "name": "MANAGER",
-        "description": "Manager role"
+        "description": "Manager role - can manage products, inventory, and sales"
+      },
+      {
+        "name": "CASHIER",
+        "description": "Cashier role - can process sales and view inventory"
+      },
+      {
+        "name": "INVENTORY_MANAGER",
+        "description": "Inventory Manager role - can manage stock and suppliers"
+      },
+      {
+        "name": "SALES_MANAGER",
+        "description": "Sales Manager role - can view sales reports and manage customers"
       }
     ]
   },
@@ -75,6 +87,66 @@
         }
       ],
       "realmRoles": ["USER"]
+    },
+    {
+      "username": "manager",
+      "enabled": true,
+      "email": "manager@sauda.com",
+      "firstName": "Store",
+      "lastName": "Manager",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "manager123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["MANAGER", "USER"]
+    },
+    {
+      "username": "cashier",
+      "enabled": true,
+      "email": "cashier@sauda.com",
+      "firstName": "POS",
+      "lastName": "Cashier",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "cashier123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["CASHIER", "USER"]
+    },
+    {
+      "username": "inventory",
+      "enabled": true,
+      "email": "inventory@sauda.com",
+      "firstName": "Inventory",
+      "lastName": "Manager",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "inventory123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["INVENTORY_MANAGER", "USER"]
+    },
+    {
+      "username": "sales",
+      "enabled": true,
+      "email": "sales@sauda.com",
+      "firstName": "Sales",
+      "lastName": "Manager",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "sales123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["SALES_MANAGER", "USER"]
     }
   ]
 }
