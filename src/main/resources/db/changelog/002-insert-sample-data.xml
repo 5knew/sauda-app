@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="028-insert-sample-shop" author="sauda-dev">
+        <insert tableName="shops">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Магазин &quot;Электроника&quot;"/>
+            <column name="created_at" valueComputed="CURRENT_TIMESTAMP"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="029-insert-sample-categories" author="sauda-dev">
+        <insert tableName="product_categories">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Электроника"/>
+            <column name="parent_id" value="NULL"/>
+        </insert>
+        <insert tableName="product_categories">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Компьютеры"/>
+            <column name="parent_id" value="1"/>
+        </insert>
+        <insert tableName="product_categories">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Смартфоны"/>
+            <column name="parent_id" value="1"/>
+        </insert>
+        <insert tableName="product_categories">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Аксессуары"/>
+            <column name="parent_id" value="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="030-insert-sample-units" author="sauda-dev">
+        <insert tableName="units">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Штука"/>
+            <column name="symbol" value="шт"/>
+        </insert>
+        <insert tableName="units">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Комплект"/>
+            <column name="symbol" value="компл"/>
+        </insert>
+        <insert tableName="units">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Метр"/>
+            <column name="symbol" value="м"/>
+        </insert>
+        <insert tableName="units">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Килограмм"/>
+            <column name="symbol" value="кг"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="031-insert-sample-attributes" author="sauda-dev">
+        <insert tableName="product_attributes">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Цвет"/>
+            <column name="data_type" value="string"/>
+        </insert>
+        <insert tableName="product_attributes">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Размер экрана"/>
+            <column name="data_type" value="number"/>
+        </insert>
+        <insert tableName="product_attributes">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Объем памяти"/>
+            <column name="data_type" value="number"/>
+        </insert>
+        <insert tableName="product_attributes">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Гарантия"/>
+            <column name="data_type" value="number"/>
+        </insert>
+        <insert tableName="product_attributes">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Беспроводная зарядка"/>
+            <column name="data_type" value="boolean"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="032-insert-sample-employees" author="sauda-dev">
+        <insert tableName="employees">
+            <column name="tenant_id" value="1"/>
+            <column name="full_name" value="Иванов Иван Иванович"/>
+            <column name="position" value="Продавец-консультант"/>
+            <column name="hired_date" value="2024-01-15"/>
+            <column name="is_active" value="true"/>
+        </insert>
+        <insert tableName="employees">
+            <column name="tenant_id" value="1"/>
+            <column name="full_name" value="Петрова Анна Сергеевна"/>
+            <column name="position" value="Кассир"/>
+            <column name="hired_date" value="2024-02-01"/>
+            <column name="is_active" value="true"/>
+        </insert>
+        <insert tableName="employees">
+            <column name="tenant_id" value="1"/>
+            <column name="full_name" value="Сидоров Петр Александрович"/>
+            <column name="position" value="Менеджер"/>
+            <column name="hired_date" value="2023-12-01"/>
+            <column name="is_active" value="true"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="033-insert-sample-roles" author="sauda-dev">
+        <insert tableName="roles">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Администратор"/>
+            <column name="permissions_json" value='{"all": true}'/>
+        </insert>
+        <insert tableName="roles">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Менеджер"/>
+            <column name="permissions_json" value='{"products": true, "sales": true, "inventory": true}'/>
+        </insert>
+        <insert tableName="roles">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Продавец"/>
+            <column name="permissions_json" value='{"sales": true, "customers": true}'/>
+        </insert>
+        <insert tableName="roles">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Кассир"/>
+            <column name="permissions_json" value='{"sales": true}'/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="034-insert-sample-users" author="sauda-dev">
+        <insert tableName="users">
+            <column name="tenant_id" value="1"/>
+            <column name="username" value="admin"/>
+            <column name="password_hash" value="$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/8QZ8K2"/>
+            <column name="employee_id" value="3"/>
+            <column name="role_id" value="1"/>
+            <column name="shop_id" value="1"/>
+        </insert>
+        <insert tableName="users">
+            <column name="tenant_id" value="1"/>
+            <column name="username" value="manager"/>
+            <column name="password_hash" value="$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/8QZ8K2"/>
+            <column name="employee_id" value="3"/>
+            <column name="role_id" value="2"/>
+            <column name="shop_id" value="1"/>
+        </insert>
+        <insert tableName="users">
+            <column name="tenant_id" value="1"/>
+            <column name="username" value="seller1"/>
+            <column name="password_hash" value="$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/8QZ8K2"/>
+            <column name="employee_id" value="1"/>
+            <column name="role_id" value="3"/>
+            <column name="shop_id" value="1"/>
+        </insert>
+        <insert tableName="users">
+            <column name="tenant_id" value="1"/>
+            <column name="username" value="cashier1"/>
+            <column name="password_hash" value="$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/8QZ8K2"/>
+            <column name="employee_id" value="2"/>
+            <column name="role_id" value="4"/>
+            <column name="shop_id" value="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="035-update-shop-owner" author="sauda-dev">
+        <update tableName="shops">
+            <column name="owner_id" value="1"/>
+            <where>tenant_id = 1</where>
+        </update>
+    </changeSet>
+
+    <changeSet id="036-insert-sample-warehouses" author="sauda-dev">
+        <insert tableName="warehouses">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Основной склад"/>
+            <column name="location" value="ул. Промышленная, 15"/>
+        </insert>
+        <insert tableName="warehouses">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Склад аксессуаров"/>
+            <column name="location" value="ул. Промышленная, 15, корпус 2"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="037-insert-sample-suppliers" author="sauda-dev">
+        <insert tableName="suppliers">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="ООО &quot;Электро-Снаб&quot;"/>
+            <column name="contact_person" value="Смирнов А.В."/>
+            <column name="phone" value="+7-495-123-45-67"/>
+            <column name="email" value="info@electro-supply.ru"/>
+            <column name="address" value="г. Москва, ул. Торговая, 10"/>
+            <column name="is_active" value="true"/>
+        </insert>
+        <insert tableName="suppliers">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="ИП &quot;Гаджеты-Мир&quot;"/>
+            <column name="contact_person" value="Козлов И.П."/>
+            <column name="phone" value="+7-495-987-65-43"/>
+            <column name="email" value="sales@gadgets-world.ru"/>
+            <column name="address" value="г. Москва, ул. Техническая, 5"/>
+            <column name="is_active" value="true"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="038-insert-sample-products" author="sauda-dev">
+        <insert tableName="products">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="iPhone 15 Pro"/>
+            <column name="barcode" value="1234567890123"/>
+            <column name="sku" value="IPH15PRO-256"/>
+            <column name="category_id" value="3"/>
+            <column name="unit_id" value="1"/>
+            <column name="description" value="Смартфон Apple iPhone 15 Pro 256GB"/>
+            <column name="is_active" value="true"/>
+        </insert>
+        <insert tableName="products">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="MacBook Air M2"/>
+            <column name="barcode" value="2345678901234"/>
+            <column name="sku" value="MBA-M2-512"/>
+            <column name="category_id" value="2"/>
+            <column name="unit_id" value="1"/>
+            <column name="description" value="Ноутбук Apple MacBook Air 13&quot; M2 512GB"/>
+            <column name="is_active" value="true"/>
+        </insert>
+        <insert tableName="products">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Samsung Galaxy S24"/>
+            <column name="barcode" value="3456789012345"/>
+            <column name="sku" value="SGS24-128"/>
+            <column name="category_id" value="3"/>
+            <column name="unit_id" value="1"/>
+            <column name="description" value="Смартфон Samsung Galaxy S24 128GB"/>
+            <column name="is_active" value="true"/>
+        </insert>
+        <insert tableName="products">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Чехол для iPhone"/>
+            <column name="barcode" value="4567890123456"/>
+            <column name="sku" value="CASE-IPH15"/>
+            <column name="category_id" value="4"/>
+            <column name="unit_id" value="1"/>
+            <column name="description" value="Силиконовый чехол для iPhone 15"/>
+            <column name="is_active" value="true"/>
+        </insert>
+        <insert tableName="products">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Кабель USB-C"/>
+            <column name="barcode" value="5678901234567"/>
+            <column name="sku" value="CABLE-USBC-2M"/>
+            <column name="category_id" value="4"/>
+            <column name="unit_id" value="1"/>
+            <column name="description" value="Кабель USB-C 2 метра"/>
+            <column name="is_active" value="true"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="039-insert-sample-attribute-values" author="sauda-dev">
+        <insert tableName="product_attribute_values">
+            <column name="product_id" value="1"/>
+            <column name="attribute_id" value="1"/>
+            <column name="value_string" value="Титан"/>
+        </insert>
+        <insert tableName="product_attribute_values">
+            <column name="product_id" value="1"/>
+            <column name="attribute_id" value="2"/>
+            <column name="value_number" value="6.1"/>
+        </insert>
+        <insert tableName="product_attribute_values">
+            <column name="product_id" value="1"/>
+            <column name="attribute_id" value="3"/>
+            <column name="value_number" value="256"/>
+        </insert>
+        <insert tableName="product_attribute_values">
+            <column name="product_id" value="1"/>
+            <column name="attribute_id" value="4"/>
+            <column name="value_number" value="12"/>
+        </insert>
+        <insert tableName="product_attribute_values">
+            <column name="product_id" value="1"/>
+            <column name="attribute_id" value="5"/>
+            <column name="value_boolean" value="true"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="040-insert-sample-inventory" author="sauda-dev">
+        <insert tableName="inventory">
+            <column name="tenant_id" value="1"/>
+            <column name="product_id" value="1"/>
+            <column name="warehouse_id" value="1"/>
+            <column name="quantity" value="5"/>
+            <column name="last_updated" valueComputed="CURRENT_TIMESTAMP"/>
+        </insert>
+        <insert tableName="inventory">
+            <column name="tenant_id" value="1"/>
+            <column name="product_id" value="2"/>
+            <column name="warehouse_id" value="1"/>
+            <column name="quantity" value="3"/>
+            <column name="last_updated" valueComputed="CURRENT_TIMESTAMP"/>
+        </insert>
+        <insert tableName="inventory">
+            <column name="tenant_id" value="1"/>
+            <column name="product_id" value="3"/>
+            <column name="warehouse_id" value="1"/>
+            <column name="quantity" value="8"/>
+            <column name="last_updated" valueComputed="CURRENT_TIMESTAMP"/>
+        </insert>
+        <insert tableName="inventory">
+            <column name="tenant_id" value="1"/>
+            <column name="product_id" value="4"/>
+            <column name="warehouse_id" value="2"/>
+            <column name="quantity" value="20"/>
+            <column name="last_updated" valueComputed="CURRENT_TIMESTAMP"/>
+        </insert>
+        <insert tableName="inventory">
+            <column name="tenant_id" value="1"/>
+            <column name="product_id" value="5"/>
+            <column name="warehouse_id" value="2"/>
+            <column name="quantity" value="50"/>
+            <column name="last_updated" valueComputed="CURRENT_TIMESTAMP"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="041-insert-sample-customers" author="sauda-dev">
+        <insert tableName="customers">
+            <column name="tenant_id" value="1"/>
+            <column name="full_name" value="Клиент Тестовый"/>
+            <column name="phone" value="+7-999-123-45-67"/>
+            <column name="email" value="test@example.com"/>
+            <column name="discount_card" value="DC001"/>
+        </insert>
+        <insert tableName="customers">
+            <column name="tenant_id" value="1"/>
+            <column name="full_name" value="Покупатель Обычный"/>
+            <column name="phone" value="+7-999-987-65-43"/>
+            <column name="email" value="buyer@example.com"/>
+            <column name="discount_card" value="DC002"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="042-insert-sample-pos-terminals" author="sauda-dev">
+        <insert tableName="pos_terminals">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Касса №1"/>
+            <column name="location" value="Торговый зал, левая сторона"/>
+            <column name="is_online" value="true"/>
+        </insert>
+        <insert tableName="pos_terminals">
+            <column name="tenant_id" value="1"/>
+            <column name="name" value="Касса №2"/>
+            <column name="location" value="Торговый зал, правая сторона"/>
+            <column name="is_online" value="true"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="043-insert-sample-price-list" author="sauda-dev">
+        <insert tableName="price_list">
+            <column name="tenant_id" value="1"/>
+            <column name="product_id" value="1"/>
+            <column name="price" value="89990.00"/>
+            <column name="start_date" value="2024-01-01"/>
+        </insert>
+        <insert tableName="price_list">
+            <column name="tenant_id" value="1"/>
+            <column name="product_id" value="2"/>
+            <column name="price" value="129990.00"/>
+            <column name="start_date" value="2024-01-01"/>
+        </insert>
+        <insert tableName="price_list">
+            <column name="tenant_id" value="1"/>
+            <column name="product_id" value="3"/>
+            <column name="price" value="69990.00"/>
+            <column name="start_date" value="2024-01-01"/>
+        </insert>
+        <insert tableName="price_list">
+            <column name="tenant_id" value="1"/>
+            <column name="product_id" value="4"/>
+            <column name="price" value="2990.00"/>
+            <column name="start_date" value="2024-01-01"/>
+        </insert>
+        <insert tableName="price_list">
+            <column name="tenant_id" value="1"/>
+            <column name="product_id" value="5"/>
+            <column name="price" value="1990.00"/>
+            <column name="start_date" value="2024-01-01"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="044-insert-sample-discount-rules" author="sauda-dev">
+        <insert tableName="discount_rules">
+            <column name="tenant_id" value="1"/>
+            <column name="description" value="Скидка 10% на все аксессуары"/>
+            <column name="discount_type" value="percentage"/>
+            <column name="value" value="10"/>
+            <column name="start_date" value="2024-01-01"/>
+            <column name="end_date" value="2024-12-31"/>
+            <column name="applies_to" value="category"/>
+        </insert>
+        <insert tableName="discount_rules">
+            <column name="tenant_id" value="1"/>
+            <column name="description" value="Скидка 5000 руб при покупке от 100000 руб"/>
+            <column name="discount_type" value="fixed"/>
+            <column name="value" value="5000"/>
+            <column name="start_date" value="2024-01-01"/>
+            <column name="end_date" value="2024-12-31"/>
+            <column name="applies_to" value="total"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>
+
+
