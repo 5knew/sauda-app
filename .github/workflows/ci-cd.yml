@@ -47,7 +47,7 @@ jobs:
         distribution: 'temurin'
     
     - name: 💾 Cache Maven dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -93,14 +93,14 @@ jobs:
       run: ./mvnw clean package -DskipTests
     
     - name: 📤 Upload Build Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: sauda-app-jar
         path: target/*.jar
         retention-days: 7
     
     - name: 📊 Upload Quality Reports
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: quality-reports
@@ -113,7 +113,7 @@ jobs:
         retention-days: 30
     
     - name: 📈 Upload JaCoCo Coverage Report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: jacoco-coverage
@@ -138,14 +138,14 @@ jobs:
         distribution: 'temurin'
     
     - name: 💾 Cache Maven dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
     
     - name: 📥 Download Quality Reports
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: quality-reports
         path: reports/
@@ -205,7 +205,7 @@ jobs:
         failOnCVSS: 7
     
     - name: 📤 Upload security report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: security-report
         path: reports/
