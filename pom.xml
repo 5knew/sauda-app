@@ -223,6 +223,16 @@
 					<enableRetired>true</enableRetired>
 					<enableExperimental>true</enableExperimental>
 					<failOnCVSS>7</failOnCVSS>
+					<!-- Исправления для проблем с NVD -->
+					<nvdApiKey>${env.NVD_API_KEY}</nvdApiKey>
+					<retryCount>3</retryCount>
+					<connectionTimeout>30000</connectionTimeout>
+					<readTimeout>30000</readTimeout>
+					<!-- Отключить обновление базы данных для CI -->
+					<updateOnly>false</updateOnly>
+					<autoUpdate>false</autoUpdate>
+					<!-- Использовать локальную базу данных -->
+					<dataDirectory>${project.build.directory}/dependency-check-data</dataDirectory>
 				</configuration>
 			</plugin>
 		</plugins>
