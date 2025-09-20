@@ -14,6 +14,8 @@ env:
   CHECKSTYLE_CONFIG: google_checks.xml
   SPOTBUGS_EFFORT: Max
   JACOCO_VERSION: 0.8.11
+  # Maven command (will be set dynamically)
+  MAVEN_CMD: ./mvnw
 
 jobs:
   # Этап 1: Проверка кода, тестирование и сборка
@@ -41,13 +43,42 @@ jobs:
       uses: actions/checkout@v4
     
     - name: 🔧 Set Maven Wrapper permissions
-      run: chmod +x ./mvnw
+      run: |
+        if [ -f "./mvnw" ]; then
+          chmod +x ./mvnw
+          echo "✅ Maven Wrapper permissions set"
+        else
+          echo "❌ Maven Wrapper not found, will use system Maven"
+        fi
     
     - name: ☕ Set up JDK 21
       uses: actions/setup-java@v4
       with:
         java-version: '21'
         distribution: 'temurin'
+    
+    - name: 📦 Install Maven (fallback)
+      run: |
+        if ! command -v mvn &> /dev/null; then
+          echo "Installing Maven as fallback..."
+          sudo apt-get update
+          sudo apt-get install -y maven
+        else
+          echo "✅ Maven already available"
+        fi
+    
+    - name: 🔍 Determine Maven command
+      run: |
+        if [ -f "./mvnw" ] && [ -x "./mvnw" ]; then
+          echo "MAVEN_CMD=./mvnw" >> $GITHUB_ENV
+          echo "✅ Using Maven Wrapper"
+        elif command -v mvn &> /dev/null; then
+          echo "MAVEN_CMD=mvn" >> $GITHUB_ENV
+          echo "✅ Using system Maven"
+        else
+          echo "❌ No Maven found!"
+          exit 1
+        fi
     
     - name: 💾 Cache Maven dependencies
       uses: actions/cache@v4
@@ -59,19 +90,19 @@ jobs:
     - name: 🔍 Checkstyle Code Style Analysis
       run: |
         echo "🔍 Running Checkstyle analysis..."
-        ./mvnw checkstyle:check
+        ${{ env.MAVEN_CMD }} checkstyle:check
       continue-on-error: true
     
     - name: 🐛 SpotBugs Bug Detection
       run: |
         echo "🐛 Running SpotBugs analysis..."
-        ./mvnw spotbugs:check
+        ${{ env.MAVEN_CMD }} spotbugs:check
       continue-on-error: true
     
     - name: 🧪 Run Tests with JaCoCo Coverage
       run: |
         echo "🧪 Running tests with code coverage..."
-        ./mvnw clean test jacoco:report
+        ${{ env.MAVEN_CMD }} clean test jacoco:report
       env:
         SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/sauda_db_test
         SPRING_DATASOURCE_USERNAME: postgres
@@ -89,11 +120,11 @@ jobs:
     - name: 📈 Generate JaCoCo Coverage Report
       run: |
         echo "📈 Generating JaCoCo coverage report..."
-        ./mvnw jacoco:report
+        ${{ env.MAVEN_CMD }} jacoco:report
       continue-on-error: true
     
     - name: 📦 Build Application
-      run: ./mvnw clean package -DskipTests
+      run: ${{ env.MAVEN_CMD }} clean package -DskipTests
     
     - name: 📤 Upload Build Artifacts
       uses: actions/upload-artifact@v4
@@ -135,13 +166,42 @@ jobs:
       uses: actions/checkout@v4
     
     - name: 🔧 Set Maven Wrapper permissions
-      run: chmod +x ./mvnw
+      run: |
+        if [ -f "./mvnw" ]; then
+          chmod +x ./mvnw
+          echo "✅ Maven Wrapper permissions set"
+        else
+          echo "❌ Maven Wrapper not found, will use system Maven"
+        fi
     
     - name: ☕ Set up JDK 21
       uses: actions/setup-java@v4
       with:
         java-version: '21'
         distribution: 'temurin'
+    
+    - name: 📦 Install Maven (fallback)
+      run: |
+        if ! command -v mvn &> /dev/null; then
+          echo "Installing Maven as fallback..."
+          sudo apt-get update
+          sudo apt-get install -y maven
+        else
+          echo "✅ Maven already available"
+        fi
+    
+    - name: 🔍 Determine Maven command
+      run: |
+        if [ -f "./mvnw" ] && [ -x "./mvnw" ]; then
+          echo "MAVEN_CMD=./mvnw" >> $GITHUB_ENV
+          echo "✅ Using Maven Wrapper"
+        elif command -v mvn &> /dev/null; then
+          echo "MAVEN_CMD=mvn" >> $GITHUB_ENV
+          echo "✅ Using system Maven"
+        else
+          echo "❌ No Maven found!"
+          exit 1
+        fi
     
     - name: 💾 Cache Maven dependencies
       uses: actions/cache@v4
@@ -193,13 +253,42 @@ jobs:
       uses: actions/checkout@v4
     
     - name: 🔧 Set Maven Wrapper permissions
-      run: chmod +x ./mvnw
+      run: |
+        if [ -f "./mvnw" ]; then
+          chmod +x ./mvnw
+          echo "✅ Maven Wrapper permissions set"
+        else
+          echo "❌ Maven Wrapper not found, will use system Maven"
+        fi
     
     - name: ☕ Set up JDK 21
       uses: actions/setup-java@v4
       with:
         java-version: '21'
         distribution: 'temurin'
+    
+    - name: 📦 Install Maven (fallback)
+      run: |
+        if ! command -v mvn &> /dev/null; then
+          echo "Installing Maven as fallback..."
+          sudo apt-get update
+          sudo apt-get install -y maven
+        else
+          echo "✅ Maven already available"
+        fi
+    
+    - name: 🔍 Determine Maven command
+      run: |
+        if [ -f "./mvnw" ] && [ -x "./mvnw" ]; then
+          echo "MAVEN_CMD=./mvnw" >> $GITHUB_ENV
+          echo "✅ Using Maven Wrapper"
+        elif command -v mvn &> /dev/null; then
+          echo "MAVEN_CMD=mvn" >> $GITHUB_ENV
+          echo "✅ Using system Maven"
+        else
+          echo "❌ No Maven found!"
+          exit 1
+        fi
     
     - name: 🔒 Run OWASP Dependency Check
       uses: dependency-check/Dependency-Check_Action@main
