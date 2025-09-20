@@ -5,6 +5,9 @@ import com.sauda.sauda_app.entity.Product;
 import com.sauda.sauda_app.repository.ProductRepository;
 import com.sauda.sauda_app.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +26,11 @@ public class ProductController {
     private ProductService productService;
     
     @GetMapping
-    public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam(defaultValue = "1") Integer tenantId) {
-        List<ProductDto> products = productService.getProductsByTenantId(tenantId);
+    public ResponseEntity<Page<Product>> getAllProducts(@RequestParam(defaultValue = "1") Long tenantId,
+                                                       @RequestParam(defaultValue = "0") int page,
+                                                       @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> products = productService.getProductsByTenant(tenantId, pageable);
         return ResponseEntity.ok(products);
     }
     

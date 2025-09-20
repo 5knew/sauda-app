@@ -29,6 +29,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/api/public/**").permitAll()
                 .requestMatchers("/api/debug/**").permitAll()
+                .requestMatchers("/api/auth-test/public").permitAll()
                 .requestMatchers("/actuator/**").permitAll()
                 
                 // Product management - different access levels
@@ -54,6 +55,12 @@ public class SecurityConfig {
                 
                 // Reports - manager and admin only
                 .requestMatchers("/api/reports/**").hasAnyRole("MANAGER", "ADMIN")
+                
+                // Auth test endpoints
+                .requestMatchers("/api/auth-test/authenticated").authenticated()
+                .requestMatchers("/api/auth-test/admin-only").hasRole("ADMIN")
+                .requestMatchers("/api/auth-test/manager-only").hasAnyRole("MANAGER", "ADMIN")
+                .requestMatchers("/api/auth-test/cashier-only").hasAnyRole("CASHIER", "SALES_MANAGER", "MANAGER", "ADMIN")
                 
                 .anyRequest().authenticated()
             )
