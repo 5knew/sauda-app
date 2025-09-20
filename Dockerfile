@@ -1,5 +1,5 @@
 # Multi-stage build for Spring Boot application
-FROM openjdk:21-jdk-slim as builder
+FROM eclipse-temurin:21-jdk-alpine as builder
 
 # Set working directory
 WORKDIR /app
@@ -10,8 +10,9 @@ COPY mvnw.cmd .
 COPY .mvn .mvn
 COPY pom.xml .
 
-# Make mvnw executable
-RUN chmod +x ./mvnw
+# Install Maven and make mvnw executable
+RUN apk add --no-cache maven && \
+    chmod +x ./mvnw
 
 # Download dependencies (this layer will be cached)
 RUN ./mvnw dependency:go-offline -B
@@ -23,15 +24,16 @@ COPY src src
 RUN ./mvnw clean package -DskipTests
 
 # Runtime stage
-FROM openjdk:21-jre-slim
+FROM eclipse-temurin:21-jre-alpine
 
 # Install necessary packages
-RUN apt-get update && \
-    apt-get install -y curl && \
-    rm -rf /var/lib/apt/lists/*
+RUN apk update && \
+    apk add --no-cache curl && \
+    rm -rf /var/cache/apk/*
 
 # Create app user
-RUN groupadd -r appuser && useradd -r -g appuser appuser
+RUN addgroup -g 1000 appuser && \
+    adduser -D -s /bin/sh -u 1000 -G appuser appuser
 
 # Set working directory
 WORKDIR /app
