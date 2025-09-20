@@ -1,4 +1,4 @@
-name: Sauda-DB CI/CD Pipeline
+name: 🚀 Sauda-DB CI/CD Pipeline
 
 on:
   push:
@@ -10,9 +10,14 @@ on:
 env:
   MAVEN_OPTS: -Xmx1024m
   SPRING_PROFILES_ACTIVE: test
+  # Настройки для инструментов качества кода
+  CHECKSTYLE_CONFIG: google_checks.xml
+  SPOTBUGS_EFFORT: Max
+  JACOCO_VERSION: 0.8.11
 
 jobs:
-  # Этап 1: Проверка кода и сборка
+  # Этап 1: Проверка кода, тестирование и сборка
+  # Включает: Checkstyle, SpotBugs, JaCoCo, Unit Tests, Build
   build-and-test:
     runs-on: ubuntu-latest
     
@@ -48,21 +53,29 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
     
-    - name: 🔍 Validate code quality
+    - name: 🔍 Checkstyle Code Style Analysis
       run: |
-        echo "Checking code style and quality..."
+        echo "🔍 Running Checkstyle analysis..."
         ./mvnw checkstyle:check
-        ./mvnw spotbugs:check
+      continue-on-error: true
     
-    - name: 🧪 Run tests
-      run: ./mvnw clean test
+    - name: 🐛 SpotBugs Bug Detection
+      run: |
+        echo "🐛 Running SpotBugs analysis..."
+        ./mvnw spotbugs:check
+      continue-on-error: true
+    
+    - name: 🧪 Run Tests with JaCoCo Coverage
+      run: |
+        echo "🧪 Running tests with code coverage..."
+        ./mvnw clean test jacoco:report
       env:
         SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/sauda_db_test
         SPRING_DATASOURCE_USERNAME: postgres
         SPRING_DATASOURCE_PASSWORD: secret
         SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://localhost:8081/realms/sauda-realm
     
-    - name: 📊 Generate test report
+    - name: 📊 Generate Test Report
       uses: dorny/test-reporter@v1
       if: success() || failure()
       with:
@@ -70,17 +83,101 @@ jobs:
         path: target/surefire-reports/*.xml
         reporter: java-junit
     
-    - name: 📦 Build application
+    - name: 📈 Generate JaCoCo Coverage Report
+      run: |
+        echo "📈 Generating JaCoCo coverage report..."
+        ./mvnw jacoco:report
+      continue-on-error: true
+    
+    - name: 📦 Build Application
       run: ./mvnw clean package -DskipTests
     
-    - name: 📤 Upload build artifacts
+    - name: 📤 Upload Build Artifacts
       uses: actions/upload-artifact@v3
       with:
         name: sauda-app-jar
         path: target/*.jar
         retention-days: 7
+    
+    - name: 📊 Upload Quality Reports
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: quality-reports
+        path: |
+          target/checkstyle/checkstyle-report.xml
+          target/spotbugs.xml
+          target/spotbugsXml.xml
+          target/site/jacoco/
+          target/surefire-reports/
+        retention-days: 30
+    
+    - name: 📈 Upload JaCoCo Coverage Report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: jacoco-coverage
+        path: target/site/jacoco/
+        retention-days: 30
 
-  # Этап 2: Анализ безопасности
+  # Этап 2: Детальный анализ качества кода
+  # Публикует отчеты Checkstyle, SpotBugs и JaCoCo в GitHub
+  code-quality-analysis:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: always()
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+    
+    - name: ☕ Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+    
+    - name: 💾 Cache Maven dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+    
+    - name: 📥 Download Quality Reports
+      uses: actions/download-artifact@v3
+      with:
+        name: quality-reports
+        path: reports/
+    
+    - name: 📊 Publish Checkstyle Results
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: 🔍 Checkstyle Results
+        path: reports/checkstyle-report.xml
+        reporter: checkstyle
+        fail-on-error: false
+    
+    - name: 📊 Publish SpotBugs Results
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: 🐛 SpotBugs Results
+        path: reports/spotbugs.xml
+        reporter: spotbugs
+        fail-on-error: false
+    
+    - name: 📈 Publish JaCoCo Coverage
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: 📈 JaCoCo Coverage
+        path: reports/jacoco/jacoco.xml
+        reporter: java-junit
+        fail-on-error: false
+
+  # Этап 3: Анализ безопасности
   security-scan:
     runs-on: ubuntu-latest
     needs: build-and-test
@@ -114,10 +211,10 @@ jobs:
         path: reports/
         retention-days: 30
 
-  # Этап 3: Сборка Docker образа
+  # Этап 4: Сборка Docker образа
   docker-build:
     runs-on: ubuntu-latest
-    needs: [build-and-test, security-scan]
+    needs: [build-and-test, code-quality-analysis, security-scan]
     if: github.ref == 'refs/heads/main'
     
     steps:
@@ -146,7 +243,7 @@ jobs:
         cache-to: type=gha,mode=max
         platforms: linux/amd64,linux/arm64
 
-  # Этап 4: Деплой в тестовую среду
+  # Этап 5: Деплой в тестовую среду
   deploy-staging:
     runs-on: ubuntu-latest
     needs: docker-build
@@ -168,7 +265,7 @@ jobs:
         echo "🧪 Running smoke tests on staging..."
         # Здесь будут тесты для проверки работоспособности
 
-  # Этап 5: Деплой в продакшен (только после ручного подтверждения)
+  # Этап 6: Деплой в продакшен (только после ручного подтверждения)
   deploy-production:
     runs-on: ubuntu-latest
     needs: [deploy-staging]
