@@ -281,6 +281,12 @@ jobs:
     - name: 📥 Checkout code
       uses: actions/checkout@v4
     
+    - name: ☕ Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+    
     - name: 🔧 Set Maven Wrapper permissions
       run: |
         if [ -f "./mvnw" ]; then
@@ -289,12 +295,6 @@ jobs:
         else
           echo "❌ Maven Wrapper not found, will use system Maven"
         fi
-    
-    - name: ☕ Set up JDK 21
-      uses: actions/setup-java@v4
-      with:
-        java-version: '21'
-        distribution: 'temurin'
     
     - name: 📦 Install Maven (fallback)
       run: |
@@ -321,6 +321,8 @@ jobs:
     
     - name: 🔒 Run OWASP Dependency Check
       uses: dependency-check/Dependency-Check_Action@main
+      env:
+        JAVA_HOME: ${{ env.JAVA_HOME }}
       with:
         project: 'sauda-app'
         path: '.'
@@ -329,7 +331,22 @@ jobs:
           --enableRetired
           --enableExperimental
           --failOnCVSS 7
-        failOnCVSS: 7
+    
+    - name: 📊 Display Security Scan Results
+      if: always()
+      run: |
+        echo "🔒 OWASP Dependency Check Results:"
+        echo "=================================="
+        if [ -d "reports" ]; then
+          echo "✅ Security reports found"
+          echo "📊 Report files:"
+          ls -la reports/
+          if [ -f "reports/dependency-check-report.html" ]; then
+            echo "📋 HTML report size: $(du -h reports/dependency-check-report.html | cut -f1)"
+          fi
+        else
+          echo "❌ No security reports found"
+        fi
     
     - name: 📤 Upload security report
       uses: actions/upload-artifact@v4
