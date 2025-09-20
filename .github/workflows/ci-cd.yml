@@ -12,6 +12,7 @@ permissions:
   checks: write
   pull-requests: write
   statuses: write
+  packages: write
 
 env:
   MAVEN_OPTS: -Xmx1024m
@@ -406,9 +407,9 @@ jobs:
         context: .
         push: true
         tags: |
-          ghcr.io/${{ github.repository }}/sauda-app:latest
-          ghcr.io/${{ github.repository }}/sauda-app:${{ github.sha }}
-          ghcr.io/${{ github.repository }}/sauda-app:${{ github.run_number }}
+          ghcr.io/${{ github.repository_owner }}/sauda-app:latest
+          ghcr.io/${{ github.repository_owner }}/sauda-app:${{ github.sha }}
+          ghcr.io/${{ github.repository_owner }}/sauda-app:${{ github.run_number }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
         platforms: linux/amd64,linux/arm64
@@ -424,7 +425,7 @@ jobs:
     - name: 🚀 Deploy to staging
       run: |
         echo "🚀 Deploying to staging environment..."
-        echo "📦 Image: ghcr.io/${{ github.repository }}/sauda-app:${{ github.sha }}"
+        echo "📦 Image: ghcr.io/${{ github.repository_owner }}/sauda-app:${{ github.sha }}"
         echo "🔗 Commit: ${{ github.sha }}"
         echo "👤 Author: ${{ github.actor }}"
         # Здесь будет реальная команда деплоя
@@ -446,7 +447,7 @@ jobs:
     - name: 🚀 Deploy to production
       run: |
         echo "🚀 Deploying to production environment..."
-        echo "📦 Image: ghcr.io/${{ github.repository }}/sauda-app:${{ github.sha }}"
+        echo "📦 Image: ghcr.io/${{ github.repository_owner }}/sauda-app:${{ github.sha }}"
         echo "🔗 Commit: ${{ github.sha }}"
         echo "👤 Author: ${{ github.actor }}"
         # Здесь будет реальная команда деплоя в продакшен
