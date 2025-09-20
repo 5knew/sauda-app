@@ -210,6 +210,21 @@
 					</systemPropertyVariables>
 				</configuration>
 			</plugin>
+			
+			<!-- OWASP Dependency Check Plugin -->
+			<plugin>
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>8.4.0</version>
+				<configuration>
+					<format>HTML</format>
+					<format>XML</format>
+					<outputDirectory>${project.build.directory}/reports</outputDirectory>
+					<enableRetired>true</enableRetired>
+					<enableExperimental>true</enableExperimental>
+					<failOnCVSS>7</failOnCVSS>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 

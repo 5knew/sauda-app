@@ -319,30 +319,22 @@ jobs:
           exit 1
         fi
     
-    - name: 🔒 Run OWASP Dependency Check
-      uses: dependency-check/Dependency-Check_Action@main
-      env:
-        JAVA_HOME: ${{ env.JAVA_HOME }}
-      with:
-        project: 'sauda-app'
-        path: '.'
-        format: 'HTML'
-        args: >
-          --enableRetired
-          --enableExperimental
-          --failOnCVSS 7
+    - name: 🔒 Run OWASP Dependency Check with Maven
+      run: |
+        echo "🔒 Running OWASP Dependency Check with Maven..."
+        ${{ env.MAVEN_CMD }} dependency-check:check
     
     - name: 📊 Display Security Scan Results
       if: always()
       run: |
         echo "🔒 OWASP Dependency Check Results:"
         echo "=================================="
-        if [ -d "reports" ]; then
+        if [ -d "target/reports" ]; then
           echo "✅ Security reports found"
           echo "📊 Report files:"
-          ls -la reports/
-          if [ -f "reports/dependency-check-report.html" ]; then
-            echo "📋 HTML report size: $(du -h reports/dependency-check-report.html | cut -f1)"
+          ls -la target/reports/
+          if [ -f "target/reports/dependency-check-report.html" ]; then
+            echo "📋 HTML report size: $(du -h target/reports/dependency-check-report.html | cut -f1)"
           fi
         else
           echo "❌ No security reports found"
@@ -352,7 +344,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: security-report
-        path: reports/
+        path: target/reports/
         retention-days: 30
 
   # Этап 4: Сборка Docker образа
