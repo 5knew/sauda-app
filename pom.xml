@@ -31,7 +31,7 @@
 		<maven.compiler.source>21</maven.compiler.source>
 		<maven.compiler.target>21</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<checkstyle.version>3.3.0</checkstyle.version>
+		<checkstyle.version>3.3.1</checkstyle.version>
 		<spotbugs.version>4.7.3.6</spotbugs.version>
 		<jacoco.version>0.8.11</jacoco.version>
 	</properties>
@@ -130,16 +130,15 @@
 				</configuration>
 			</plugin>
 			
-			<!-- Checkstyle Plugin for Code Quality - Temporarily disabled for demo -->
+			<!-- Checkstyle Plugin for Code Quality - Temporarily disabled due to version conflicts -->
 			<!-- <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>${checkstyle.version}</version>
 				<configuration>
 					<configLocation>checkstyle.xml</configLocation>
-					<encoding>UTF-8</encoding>
 					<consoleOutput>true</consoleOutput>
-					<failsOnError>true</failsOnError>
+					<failsOnError>false</failsOnError>
 					<includeTestSourceDirectory>true</includeTestSourceDirectory>
 				</configuration>
 				<executions>
@@ -153,8 +152,8 @@
 				</executions>
 			</plugin> -->
 			
-			<!-- SpotBugs Plugin for Bug Detection - Temporarily disabled for demo -->
-			<!-- <plugin>
+			<!-- SpotBugs Plugin for Bug Detection -->
+			<plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
 				<version>${spotbugs.version}</version>
@@ -163,6 +162,7 @@
 					<threshold>Low</threshold>
 					<xmlOutput>true</xmlOutput>
 					<includeTests>true</includeTests>
+					<failOnError>false</failOnError>
 				</configuration>
 				<executions>
 					<execution>
@@ -171,7 +171,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin> -->
+			</plugin>
 			
 			<!-- JaCoCo Plugin for Code Coverage -->
 			<plugin>
