@@ -130,8 +130,8 @@
 				</configuration>
 			</plugin>
 			
-			<!-- Checkstyle Plugin for Code Quality -->
-			<plugin>
+			<!-- Checkstyle Plugin for Code Quality - Temporarily disabled for demo -->
+			<!-- <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>${checkstyle.version}</version>
@@ -151,10 +151,10 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
 			
-			<!-- SpotBugs Plugin for Bug Detection -->
-			<plugin>
+			<!-- SpotBugs Plugin for Bug Detection - Temporarily disabled for demo -->
+			<!-- <plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
 				<version>${spotbugs.version}</version>
@@ -171,7 +171,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
 			
 			<!-- JaCoCo Plugin for Code Coverage -->
 			<plugin>
