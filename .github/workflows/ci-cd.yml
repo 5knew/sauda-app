@@ -123,7 +123,6 @@ jobs:
         path: target/surefire-reports/*.xml
         reporter: java-junit
         fail-on-error: false
-        check-name: Unit Tests
     
     - name: 📋 Display Test Results (fallback)
       if: always()
@@ -235,35 +234,44 @@ jobs:
         name: quality-reports
         path: reports/
     
-    - name: 📊 Publish Checkstyle Results
-      uses: dorny/test-reporter@v1
+    - name: 📊 Display Checkstyle Results
       if: always()
-      with:
-        name: 🔍 Checkstyle Results
-        path: reports/checkstyle-report.xml
-        reporter: checkstyle
-        fail-on-error: false
-        check-name: Checkstyle Analysis
+      run: |
+        echo "🔍 Checkstyle Results Summary:"
+        if [ -f "reports/checkstyle-report.xml" ]; then
+          echo "✅ Checkstyle report found"
+          echo "📊 Report size: $(du -h reports/checkstyle-report.xml | cut -f1)"
+          echo "📋 First few lines:"
+          head -20 reports/checkstyle-report.xml
+        else
+          echo "❌ No Checkstyle report found"
+        fi
     
-    - name: 📊 Publish SpotBugs Results
-      uses: dorny/test-reporter@v1
+    - name: 📊 Display SpotBugs Results
       if: always()
-      with:
-        name: 🐛 SpotBugs Results
-        path: reports/spotbugs.xml
-        reporter: spotbugs
-        fail-on-error: false
-        check-name: SpotBugs Analysis
+      run: |
+        echo "🐛 SpotBugs Results Summary:"
+        if [ -f "reports/spotbugs.xml" ]; then
+          echo "✅ SpotBugs report found"
+          echo "📊 Report size: $(du -h reports/spotbugs.xml | cut -f1)"
+          echo "📋 First few lines:"
+          head -20 reports/spotbugs.xml
+        else
+          echo "❌ No SpotBugs report found"
+        fi
     
-    - name: 📈 Publish JaCoCo Coverage
-      uses: dorny/test-reporter@v1
+    - name: 📈 Display JaCoCo Coverage
       if: always()
-      with:
-        name: 📈 JaCoCo Coverage
-        path: reports/jacoco/jacoco.xml
-        reporter: java-junit
-        fail-on-error: false
-        check-name: Code Coverage
+      run: |
+        echo "📈 JaCoCo Coverage Summary:"
+        if [ -f "reports/jacoco/jacoco.xml" ]; then
+          echo "✅ JaCoCo report found"
+          echo "📊 Report size: $(du -h reports/jacoco/jacoco.xml | cut -f1)"
+          echo "📋 Coverage information:"
+          grep -E "(line-rate|branch-rate|complexity-rate)" reports/jacoco/jacoco.xml | head -5
+        else
+          echo "❌ No JaCoCo report found"
+        fi
 
   # Этап 3: Анализ безопасности
   security-scan:
