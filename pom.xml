@@ -31,7 +31,7 @@
 		<maven.compiler.source>21</maven.compiler.source>
 		<maven.compiler.target>21</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<checkstyle.version>3.3.0</checkstyle.version>
+		<checkstyle.version>3.6.0</checkstyle.version>
 		<spotbugs.version>4.7.3.6</spotbugs.version>
 		<jacoco.version>0.8.11</jacoco.version>
 	</properties>
@@ -130,16 +130,16 @@
 				</configuration>
 			</plugin>
 			
-			<!-- Checkstyle Plugin for Code Quality - Disabled locally due to Guava version conflicts -->
-			<!-- Will work in GitHub Actions with different dependency versions -->
-			<!-- <plugin>
+			<!-- Checkstyle Plugin for Code Quality -->
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>${checkstyle.version}</version>
 				<configuration>
-					<configLocation>checkstyle.xml</configLocation>
+					<configLocation>google_checks.xml</configLocation>
+					<failsOnError>true</failsOnError>
 					<consoleOutput>true</consoleOutput>
-					<failsOnError>false</failsOnError>
+					<outputFile>${project.build.directory}/checkstyle/checkstyle-report.xml</outputFile>
 					<includeTestSourceDirectory>true</includeTestSourceDirectory>
 				</configuration>
 				<executions>
@@ -151,7 +151,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin> -->
+			</plugin>
 			
 			<!-- SpotBugs Plugin for Bug Detection -->
 			<plugin>
