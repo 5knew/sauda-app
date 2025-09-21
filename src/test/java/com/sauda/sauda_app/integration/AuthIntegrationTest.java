@@ -10,7 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.context.annotation.Import;
-import com.sauda.sauda_app.config.TestSecurityConfig;
+import com.sauda.sauda_app.config.TestIntegrationSecurityConfig;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureWebMvc
 @ActiveProfiles("test")
-@Import(TestSecurityConfig.class)
+@Import(TestIntegrationSecurityConfig.class)
 class AuthIntegrationTest {
 
     @Autowired
@@ -42,7 +42,7 @@ class AuthIntegrationTest {
 
         mockMvc.perform(get("/api/auth-test/authenticated")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isUnauthorized()); // Ожидаем 401 для неавторизованных запросов
     }
 
     @Test
@@ -51,7 +51,7 @@ class AuthIntegrationTest {
 
         mockMvc.perform(get("/api/auth-test/admin-only")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isUnauthorized()); // Ожидаем 401 для неавторизованных запросов
     }
 
     @Test
@@ -60,7 +60,7 @@ class AuthIntegrationTest {
 
         mockMvc.perform(get("/api/auth-test/manager-only")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isUnauthorized()); // Ожидаем 401 для неавторизованных запросов
     }
 
     @Test
@@ -69,7 +69,7 @@ class AuthIntegrationTest {
 
         mockMvc.perform(get("/api/auth-test/cashier-only")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isUnauthorized()); // Ожидаем 401 для неавторизованных запросов
     }
 
     @Test
@@ -81,7 +81,7 @@ class AuthIntegrationTest {
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isUnauthorized()); // Ожидаем 401 для неавторизованных запросов
     }
 
     @Test
@@ -93,7 +93,7 @@ class AuthIntegrationTest {
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isUnauthorized()); // Ожидаем 401 для неавторизованных запросов
     }
 
     @Test
@@ -105,6 +105,6 @@ class AuthIntegrationTest {
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isUnauthorized()); // Ожидаем 401 для неавторизованных запросов
     }
 }
