@@ -18,7 +18,7 @@ public class ErrorLog {
     private Long id;
     
     @Column(name = "tenant_id", nullable = false)
-    private Integer tenantId;
+    private Long tenantId;
     
     @Column(name = "error_message", nullable = false)
     private String errorMessage;

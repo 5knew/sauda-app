@@ -10,7 +10,7 @@ import java.util.Map;
 public class ReportsController {
 
     @GetMapping("/sales")
-    public Map<String, String> getSalesReport(@RequestParam(defaultValue = "1") Integer tenantId) {
+    public Map<String, String> getSalesReport(@RequestParam(defaultValue = "1") Long tenantId) {
         return Map.of(
             "message", "Sales report for tenant " + tenantId,
             "access", "MANAGER, ADMIN only",
@@ -20,7 +20,7 @@ public class ReportsController {
     }
 
     @GetMapping("/inventory")
-    public Map<String, String> getInventoryReport(@RequestParam(defaultValue = "1") Integer tenantId) {
+    public Map<String, String> getInventoryReport(@RequestParam(defaultValue = "1") Long tenantId) {
         return Map.of(
             "message", "Inventory report for tenant " + tenantId,
             "access", "MANAGER, ADMIN only",
@@ -30,7 +30,7 @@ public class ReportsController {
     }
 
     @GetMapping("/financial")
-    public Map<String, String> getFinancialReport(@RequestParam(defaultValue = "1") Integer tenantId) {
+    public Map<String, String> getFinancialReport(@RequestParam(defaultValue = "1") Long tenantId) {
         return Map.of(
             "message", "Financial report for tenant " + tenantId,
             "access", "ADMIN only",

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -19,13 +20,28 @@ public class Unit {
     private Long id;
     
     @Column(name = "tenant_id", nullable = false)
-    private Integer tenantId;
+    private Long tenantId;
     
     @Column(name = "name", nullable = false)
     private String name;
     
-    @Column(name = "symbol", nullable = false)
+    @Column(name = "symbol")
     private String symbol;
+    
+    @Column(name = "description")
+    private String description;
+    
+    @Column(name = "is_active", nullable = false)
+    private Boolean isActive = true;
+    
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted = false;
+    
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+    
+    @Column(name = "last_updated", nullable = false)
+    private LocalDateTime lastUpdated;
     
     // Relationships
     @OneToMany(mappedBy = "unit", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

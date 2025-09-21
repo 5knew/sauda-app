@@ -20,7 +20,7 @@ public class AuditLog {
     private Long id;
     
     @Column(name = "tenant_id", nullable = false)
-    private Integer tenantId;
+    private Long tenantId;
     
     @Column(name = "user_id")
     private Long userId;
@@ -38,7 +38,7 @@ public class AuditLog {
     @Column(name = "timestamp")
     private LocalDateTime timestamp;
     
-    @Column(name = "details_json", columnDefinition = "jsonb")
+    @Column(name = "details_json", columnDefinition = "varchar(4000)")
     private String detailsJson;
     
     // Relationships

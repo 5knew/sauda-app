@@ -19,12 +19,12 @@ public class Role {
     private Long id;
     
     @Column(name = "tenant_id", nullable = false)
-    private Integer tenantId;
+    private Long tenantId;
     
     @Column(name = "name", nullable = false)
     private String name;
     
-    @Column(name = "permissions_json", columnDefinition = "jsonb")
+    @Column(name = "permissions_json", columnDefinition = "varchar(4000)")
     private String permissionsJson;
     
     // Relationships

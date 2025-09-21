@@ -136,7 +136,7 @@ public class InventoryServiceImpl implements InventoryService {
         
         // Устанавливаем tenant_id (можно получить из товара или склада)
         // Здесь предполагаем, что tenant_id передается отдельно или получается из контекста
-        inventory.setTenantId(1); // TODO: Получать из контекста безопасности
+        inventory.setTenantId(1L); // TODO: Получать из контекста безопасности
         
         return inventoryRepository.save(inventory);
     }

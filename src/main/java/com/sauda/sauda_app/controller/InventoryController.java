@@ -1,5 +1,7 @@
 package com.sauda.sauda_app.controller;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -10,12 +12,18 @@ import java.util.Map;
 public class InventoryController {
 
     @GetMapping
-    public Map<String, String> getInventory(@RequestParam(defaultValue = "1") Integer tenantId) {
-        return Map.of(
+    public ResponseEntity<Map<String, String>> getInventory(@RequestParam(defaultValue = "1") Long tenantId, Authentication authentication) {
+        if (authentication == null) {
+            return ResponseEntity.status(401).body(Map.of(
+                "error", "Unauthorized",
+                "message", "Authentication required"
+            ));
+        }
+        return ResponseEntity.ok(Map.of(
             "message", "Inventory data for tenant " + tenantId,
             "access", "INVENTORY_MANAGER, MANAGER, ADMIN only",
             "status", "success"
-        );
+        ));
     }
 
     @PostMapping("/adjust")
@@ -28,7 +36,7 @@ public class InventoryController {
     }
 
     @GetMapping("/low-stock")
-    public Map<String, String> getLowStockItems(@RequestParam(defaultValue = "1") Integer tenantId) {
+    public Map<String, String> getLowStockItems(@RequestParam(defaultValue = "1") Long tenantId) {
         return Map.of(
             "message", "Low stock items for tenant " + tenantId,
             "items", "5",

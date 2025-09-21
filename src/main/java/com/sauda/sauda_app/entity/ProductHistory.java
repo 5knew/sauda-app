@@ -20,7 +20,7 @@ public class ProductHistory {
     private Long id;
     
     @Column(name = "tenant_id", nullable = false)
-    private Integer tenantId;
+    private Long tenantId;
     
     @Column(name = "product_id", nullable = false)
     private Long productId;
@@ -29,10 +29,10 @@ public class ProductHistory {
     @Column(name = "changed_at")
     private LocalDateTime changedAt;
     
-    @Column(name = "old_value", columnDefinition = "jsonb")
+    @Column(name = "old_value", columnDefinition = "varchar(4000)")
     private String oldValue;
     
-    @Column(name = "new_value", columnDefinition = "jsonb")
+    @Column(name = "new_value", columnDefinition = "varchar(4000)")
     private String newValue;
     
     @Column(name = "changed_by")

@@ -21,7 +21,7 @@ public class Inventory {
     private Long id;
     
     @Column(name = "tenant_id", nullable = false)
-    private Integer tenantId;
+    private Long tenantId;
     
     @Column(name = "product_id", nullable = false)
     private Long productId;
@@ -32,9 +32,13 @@ public class Inventory {
     @Column(name = "quantity")
     private BigDecimal quantity = BigDecimal.ZERO;
     
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+    
     @UpdateTimestamp
     @Column(name = "last_updated")
     private LocalDateTime lastUpdated;
+    
     
     // Relationships
     @ManyToOne(fetch = FetchType.LAZY)

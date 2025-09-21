@@ -38,16 +38,15 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long> {
     boolean existsByProductIdAndWarehouseId(Long productId, Long warehouseId);
     
     // Старые методы (для обратной совместимости)
-    List<Inventory> findByTenantId(Integer tenantId);
-    List<Inventory> findByTenantIdAndWarehouseId(Integer tenantId, Long warehouseId);
-    List<Inventory> findByTenantIdAndProductId(Integer tenantId, Long productId);
-    Optional<Inventory> findByTenantIdAndProductIdAndWarehouseId(Integer tenantId, Long productId, Long warehouseId);
+    List<Inventory> findByTenantId(Long tenantId);
+    List<Inventory> findByTenantIdAndWarehouseId(Long tenantId, Long warehouseId);
+    Optional<Inventory> findByTenantIdAndProductIdAndWarehouseId(Long tenantId, Long productId, Long warehouseId);
     
     @Query("SELECT i FROM Inventory i WHERE i.tenantId = :tenantId AND i.quantity > 0")
-    List<Inventory> findAvailableInventory(@Param("tenantId") Integer tenantId);
+    List<Inventory> findAvailableInventory(@Param("tenantId") Long tenantId);
     
     @Query("SELECT i FROM Inventory i WHERE i.tenantId = :tenantId AND i.quantity <= :threshold")
-    List<Inventory> findLowStockInventory(@Param("tenantId") Integer tenantId, @Param("threshold") BigDecimal threshold);
+    List<Inventory> findLowStockInventory(@Param("tenantId") Long tenantId, @Param("threshold") BigDecimal threshold);
 }
 
 

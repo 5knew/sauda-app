@@ -18,7 +18,7 @@ public class DiscountRule {
     private Long id;
     
     @Column(name = "tenant_id", nullable = false)
-    private Integer tenantId;
+    private Long tenantId;
     
     @Column(name = "description")
     private String description;
@@ -26,7 +26,7 @@ public class DiscountRule {
     @Column(name = "discount_type", nullable = false)
     private String discountType;
     
-    @Column(name = "value", nullable = false)
+    @Column(name = "discount_value", nullable = false)
     private BigDecimal value;
     
     @Column(name = "start_date", nullable = false)

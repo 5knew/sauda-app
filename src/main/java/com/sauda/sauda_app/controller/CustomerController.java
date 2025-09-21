@@ -1,5 +1,7 @@
 package com.sauda.sauda_app.controller;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -10,12 +12,18 @@ import java.util.Map;
 public class CustomerController {
 
     @GetMapping
-    public Map<String, String> getCustomers(@RequestParam(defaultValue = "1") Integer tenantId) {
-        return Map.of(
+    public ResponseEntity<Map<String, String>> getCustomers(@RequestParam(defaultValue = "1") Long tenantId, Authentication authentication) {
+        if (authentication == null) {
+            return ResponseEntity.status(401).body(Map.of(
+                "error", "Unauthorized",
+                "message", "Authentication required"
+            ));
+        }
+        return ResponseEntity.ok(Map.of(
             "message", "Customers data for tenant " + tenantId,
             "access", "SALES_MANAGER, MANAGER, ADMIN only",
             "status", "success"
-        );
+        ));
     }
 
     @PostMapping
@@ -28,7 +36,7 @@ public class CustomerController {
     }
 
     @GetMapping("/loyalty")
-    public Map<String, String> getLoyaltyCustomers(@RequestParam(defaultValue = "1") Integer tenantId) {
+    public Map<String, String> getLoyaltyCustomers(@RequestParam(defaultValue = "1") Long tenantId) {
         return Map.of(
             "message", "Loyalty customers for tenant " + tenantId,
             "count", "25",

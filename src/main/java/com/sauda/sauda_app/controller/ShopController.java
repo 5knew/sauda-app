@@ -18,13 +18,13 @@ public class ShopController {
     private ShopRepository shopRepository;
     
     @GetMapping
-    public ResponseEntity<List<Shop>> getAllShops(@RequestParam(defaultValue = "1") Integer tenantId) {
+    public ResponseEntity<List<Shop>> getAllShops(@RequestParam(defaultValue = "1") Long tenantId) {
         List<Shop> shops = shopRepository.findAllByTenantId(tenantId);
         return ResponseEntity.ok(shops);
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<Shop> getShopById(@PathVariable Long id, @RequestParam(defaultValue = "1") Integer tenantId) {
+    public ResponseEntity<Shop> getShopById(@PathVariable Long id, @RequestParam(defaultValue = "1") Long tenantId) {
         Optional<Shop> shop = shopRepository.findById(id);
         if (shop.isPresent() && shop.get().getTenantId().equals(tenantId)) {
             return ResponseEntity.ok(shop.get());
@@ -33,7 +33,7 @@ public class ShopController {
     }
     
     @GetMapping("/tenant/{tenantId}")
-    public ResponseEntity<Shop> getShopByTenantId(@PathVariable Integer tenantId) {
+    public ResponseEntity<Shop> getShopByTenantId(@PathVariable Long tenantId) {
         Optional<Shop> shop = shopRepository.findByTenantId(tenantId);
         return shop.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
@@ -47,7 +47,7 @@ public class ShopController {
     @PutMapping("/{id}")
     public ResponseEntity<Shop> updateShop(@PathVariable Long id, 
                                           @RequestBody Shop shopDetails,
-                                          @RequestParam(defaultValue = "1") Integer tenantId) {
+                                          @RequestParam(defaultValue = "1") Long tenantId) {
         Optional<Shop> shopOptional = shopRepository.findById(id);
         if (shopOptional.isPresent() && shopOptional.get().getTenantId().equals(tenantId)) {
             Shop shop = shopOptional.get();

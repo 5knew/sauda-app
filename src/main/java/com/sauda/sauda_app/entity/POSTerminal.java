@@ -19,7 +19,7 @@ public class POSTerminal {
     private Long id;
     
     @Column(name = "tenant_id", nullable = false)
-    private Integer tenantId;
+    private Long tenantId;
     
     @Column(name = "name", nullable = false)
     private String name;

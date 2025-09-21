@@ -21,7 +21,7 @@ public class Payment {
     private Long id;
     
     @Column(name = "tenant_id", nullable = false)
-    private Integer tenantId;
+    private Long tenantId;
     
     @Column(name = "sale_id", nullable = false)
     private Long saleId;

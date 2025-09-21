@@ -114,7 +114,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional(readOnly = true)
     public Page<Customer> getCustomersByTenant(Long tenantId, Pageable pageable) {
-        return customerRepository.findByTenantId(tenantId, pageable);
+        return customerRepository.findByTenantId(tenantId.longValue(), pageable);
     }
 
     @Override
@@ -126,7 +126,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional(readOnly = true)
     public Page<Customer> searchCustomersByNameInTenant(Long tenantId, String name, Pageable pageable) {
-        return customerRepository.findByTenantIdAndFullNameContainingIgnoreCase(tenantId, name, pageable);
+        return customerRepository.findByTenantIdAndFullNameContainingIgnoreCase(tenantId.longValue(), name, pageable);
     }
 
     @Override
@@ -138,19 +138,19 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional(readOnly = true)
     public Page<Customer> searchCustomersByPhoneInTenant(Long tenantId, String phone, Pageable pageable) {
-        return customerRepository.findByTenantIdAndPhoneContaining(tenantId, phone, pageable);
+        return customerRepository.findByTenantIdAndPhoneContaining(tenantId.longValue(), phone, pageable);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Page<Customer> getCustomersWithDiscountCards(Long tenantId, Pageable pageable) {
-        return customerRepository.findByTenantIdAndDiscountCardIsNotNull(tenantId, pageable);
+        return customerRepository.findByTenantIdAndDiscountCardIsNotNull(tenantId.longValue(), pageable);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Page<Customer> getCustomersWithoutDiscountCards(Long tenantId, Pageable pageable) {
-        return customerRepository.findByTenantIdAndDiscountCardIsNull(tenantId, pageable);
+        return customerRepository.findByTenantIdAndDiscountCardIsNull(tenantId.longValue(), pageable);
     }
 
     @Override
@@ -164,13 +164,13 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional(readOnly = true)
     public long getCustomerCountByTenant(Long tenantId) {
-        return customerRepository.countByTenantId(tenantId);
+        return customerRepository.countByTenantId(tenantId.longValue());
     }
 
     @Override
     @Transactional(readOnly = true)
     public long getCustomerCountWithDiscountCardsByTenant(Long tenantId) {
-        return customerRepository.countByTenantIdAndDiscountCardIsNotNull(tenantId);
+        return customerRepository.countByTenantIdAndDiscountCardIsNotNull(tenantId.longValue());
     }
 
     @Override
@@ -194,19 +194,19 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional(readOnly = true)
     public boolean existsByPhoneInTenant(Long tenantId, String phone) {
-        return customerRepository.existsByTenantIdAndPhone(tenantId, phone);
+        return customerRepository.existsByTenantIdAndPhone(tenantId.longValue(), phone);
     }
 
     @Override
     @Transactional(readOnly = true)
     public boolean existsByEmailInTenant(Long tenantId, String email) {
-        return customerRepository.existsByTenantIdAndEmail(tenantId, email);
+        return customerRepository.existsByTenantIdAndEmail(tenantId.longValue(), email);
     }
 
     @Override
     @Transactional(readOnly = true)
     public boolean existsByDiscountCardInTenant(Long tenantId, String discountCard) {
-        return customerRepository.existsByTenantIdAndDiscountCard(tenantId, discountCard);
+        return customerRepository.existsByTenantIdAndDiscountCard(tenantId.longValue(), discountCard);
     }
 
     @Override

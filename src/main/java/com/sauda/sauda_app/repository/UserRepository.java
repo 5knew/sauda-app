@@ -14,15 +14,15 @@ public interface UserRepository extends JpaRepository<User, Long> {
     
     Optional<User> findByUsername(String username);
     
-    List<User> findByTenantId(Integer tenantId);
+    List<User> findByTenantId(Long tenantId);
     
-    List<User> findByTenantIdAndShopId(Integer tenantId, Long shopId);
+    List<User> findByTenantIdAndShopId(Long tenantId, Long shopId);
     
     @Query("SELECT u FROM User u WHERE u.tenantId = :tenantId AND u.username = :username")
-    Optional<User> findByTenantIdAndUsername(@Param("tenantId") Integer tenantId, @Param("username") String username);
+    Optional<User> findByTenantIdAndUsername(@Param("tenantId") Long tenantId, @Param("username") String username);
     
     @Query("SELECT u FROM User u WHERE u.tenantId = :tenantId AND u.roleId = :roleId")
-    List<User> findByTenantIdAndRoleId(@Param("tenantId") Integer tenantId, @Param("roleId") Long roleId);
+    List<User> findByTenantIdAndRoleId(@Param("tenantId") Long tenantId, @Param("roleId") Long roleId);
 }
 
 

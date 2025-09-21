@@ -20,7 +20,7 @@ public class PriceList {
     private Long id;
     
     @Column(name = "tenant_id", nullable = false)
-    private Integer tenantId;
+    private Long tenantId;
     
     @Column(name = "product_id", nullable = false)
     private Long productId;

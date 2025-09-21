@@ -21,7 +21,7 @@ public class PurchaseOrder {
     private Long id;
     
     @Column(name = "tenant_id", nullable = false)
-    private Integer tenantId;
+    private Long tenantId;
     
     @Column(name = "supplier_id")
     private Long supplierId;

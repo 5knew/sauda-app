@@ -42,19 +42,19 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     boolean existsByTenantIdAndSku(Long tenantId, String sku);
     
     // Старые методы (для обратной совместимости)
-    List<Product> findByTenantIdAndIsActiveTrueAndIsDeletedFalse(Integer tenantId);
-    List<Product> findByTenantIdAndCategoryIdAndIsActiveTrueAndIsDeletedFalse(Integer tenantId, Long categoryId);
+    List<Product> findByTenantIdAndIsActiveTrueAndIsDeletedFalse(Long tenantId);
+    List<Product> findByTenantIdAndCategoryIdAndIsActiveTrueAndIsDeletedFalse(Long tenantId, Long categoryId);
     
     @Query("SELECT p FROM Product p WHERE p.tenantId = :tenantId AND " +
            "(LOWER(p.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
            "LOWER(p.barcode) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
            "LOWER(p.sku) LIKE LOWER(CONCAT('%', :searchTerm, '%'))) AND " +
            "p.isActive = true AND p.isDeleted = false")
-    List<Product> searchProducts(@Param("tenantId") Integer tenantId, @Param("searchTerm") String searchTerm);
+    List<Product> searchProducts(@Param("tenantId") Long tenantId, @Param("searchTerm") String searchTerm);
     
     @Query("SELECT p FROM Product p WHERE p.tenantId = :tenantId AND p.isActive = true AND p.isDeleted = false " +
            "ORDER BY p.name")
-    List<Product> findAllActiveByTenantIdOrderByName(@Param("tenantId") Integer tenantId);
+    List<Product> findAllActiveByTenantIdOrderByName(@Param("tenantId") Long tenantId);
 }
 
 

@@ -26,6 +26,13 @@ public class AuthTestController {
 
     @GetMapping("/authenticated")
     public ResponseEntity<Map<String, Object>> authenticatedEndpoint(Authentication authentication) {
+        if (authentication == null) {
+            return ResponseEntity.status(401).body(Map.of(
+                "error", "Unauthorized",
+                "message", "Authentication required"
+            ));
+        }
+        
         Map<String, Object> response = new HashMap<>();
         response.put("message", "This is an authenticated endpoint");
         response.put("user", authentication.getName());
@@ -38,6 +45,13 @@ public class AuthTestController {
 
     @GetMapping("/admin-only")
     public ResponseEntity<Map<String, Object>> adminOnlyEndpoint(Authentication authentication) {
+        if (authentication == null) {
+            return ResponseEntity.status(401).body(Map.of(
+                "error", "Unauthorized",
+                "message", "Authentication required"
+            ));
+        }
+        
         Map<String, Object> response = new HashMap<>();
         response.put("message", "This is an admin-only endpoint");
         response.put("user", authentication.getName());
@@ -50,6 +64,13 @@ public class AuthTestController {
 
     @GetMapping("/manager-only")
     public ResponseEntity<Map<String, Object>> managerOnlyEndpoint(Authentication authentication) {
+        if (authentication == null) {
+            return ResponseEntity.status(401).body(Map.of(
+                "error", "Unauthorized",
+                "message", "Authentication required"
+            ));
+        }
+        
         Map<String, Object> response = new HashMap<>();
         response.put("message", "This is a manager-only endpoint");
         response.put("user", authentication.getName());
@@ -62,6 +83,13 @@ public class AuthTestController {
 
     @GetMapping("/cashier-only")
     public ResponseEntity<Map<String, Object>> cashierOnlyEndpoint(Authentication authentication) {
+        if (authentication == null) {
+            return ResponseEntity.status(401).body(Map.of(
+                "error", "Unauthorized",
+                "message", "Authentication required"
+            ));
+        }
+        
         Map<String, Object> response = new HashMap<>();
         response.put("message", "This is a cashier-only endpoint");
         response.put("user", authentication.getName());

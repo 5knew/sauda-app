@@ -12,10 +12,10 @@ import java.util.Optional;
 @Repository
 public interface ShopRepository extends JpaRepository<Shop, Long> {
     
-    Optional<Shop> findByTenantId(Integer tenantId);
+    Optional<Shop> findByTenantId(Long tenantId);
     
     @Query("SELECT s FROM Shop s WHERE s.tenantId = :tenantId")
-    List<Shop> findAllByTenantId(@Param("tenantId") Integer tenantId);
+    List<Shop> findAllByTenantId(@Param("tenantId") Long tenantId);
     
     @Query("SELECT s FROM Shop s WHERE s.ownerId = :ownerId")
     List<Shop> findByOwnerId(@Param("ownerId") Long ownerId);

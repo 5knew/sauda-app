@@ -32,7 +32,7 @@ class ProductServiceTest {
     @BeforeEach
     void setUp() {
         productDto = new ProductDto();
-        productDto.setTenantId(1);
+        productDto.setTenantId(1L);
         productDto.setName("Test Product");
         productDto.setBarcode("1234567890123");
         productDto.setSku("TEST-001");
@@ -40,7 +40,7 @@ class ProductServiceTest {
 
         product = new Product();
         product.setId(1L);
-        product.setTenantId(1);
+        product.setTenantId(1L);
         product.setName("Test Product");
         product.setBarcode("1234567890123");
         product.setSku("TEST-001");

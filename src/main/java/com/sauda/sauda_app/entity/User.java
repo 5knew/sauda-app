@@ -19,7 +19,7 @@ public class User {
     private Long id;
     
     @Column(name = "tenant_id", nullable = false)
-    private Integer tenantId;
+    private Long tenantId;
     
     @Column(name = "username", nullable = false, unique = true)
     private String username;

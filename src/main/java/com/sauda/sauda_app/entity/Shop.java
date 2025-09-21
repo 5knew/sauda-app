@@ -21,7 +21,7 @@ public class Shop {
     private Long id;
     
     @Column(name = "tenant_id", nullable = false)
-    private Integer tenantId;
+    private Long tenantId;
     
     @Column(name = "name", nullable = false)
     private String name;
@@ -29,9 +29,24 @@ public class Shop {
     @Column(name = "owner_id")
     private Long ownerId;
     
+    @Column(name = "address")
+    private String address;
+    
+    @Column(name = "description")
+    private String description;
+    
+    @Column(name = "is_active", nullable = false)
+    private Boolean isActive = true;
+    
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted = false;
+    
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+    
+    @Column(name = "last_updated")
+    private LocalDateTime lastUpdated;
     
     // Relationships
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

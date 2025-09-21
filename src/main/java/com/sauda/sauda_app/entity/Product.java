@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -20,7 +22,7 @@ public class Product {
     private Long id;
     
     @Column(name = "tenant_id", nullable = false)
-    private Integer tenantId;
+    private Long tenantId;
     
     @Column(name = "name", nullable = false)
     private String name;
@@ -46,11 +48,23 @@ public class Product {
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
     
+    @Column(name = "price", precision = 10, scale = 2)
+    private BigDecimal price;
+    
+    @Column(name = "quantity", precision = 10, scale = 2)
+    private BigDecimal quantity;
+    
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+    
+    @Column(name = "last_updated", nullable = false)
+    private LocalDateTime lastUpdated;
+    
     // Relationships
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", insertable = false, updatable = false)
     @JsonIgnore
-    private ProductCategory category;
+    private Category category;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "unit_id", insertable = false, updatable = false)

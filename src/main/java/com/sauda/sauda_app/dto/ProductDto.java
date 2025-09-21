@@ -1,11 +1,12 @@
 package com.sauda.sauda_app.dto;
 
 import lombok.Data;
+import java.math.BigDecimal;
 
 @Data
 public class ProductDto {
     private Long id;
-    private Integer tenantId;
+    private Long tenantId;
     private String name;
     private String barcode;
     private String sku;
@@ -14,6 +15,8 @@ public class ProductDto {
     private String description;
     private Boolean isActive;
     private Boolean isDeleted;
+    private BigDecimal price;
+    private BigDecimal quantity;
     
     // Category info without circular reference
     private String categoryName;

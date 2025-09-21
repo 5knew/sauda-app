@@ -2,7 +2,7 @@ package com.sauda.sauda_app.service.impl;
 
 import com.sauda.sauda_app.dto.ProductDto;
 import com.sauda.sauda_app.entity.Product;
-import com.sauda.sauda_app.entity.ProductCategory;
+import com.sauda.sauda_app.entity.Category;
 import com.sauda.sauda_app.entity.Unit;
 import com.sauda.sauda_app.repository.ProductRepository;
 import com.sauda.sauda_app.service.ProductService;
@@ -55,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
 
         // Установка категории если указана
         if (productDto.getCategoryId() != null) {
-            ProductCategory category = new ProductCategory();
+            Category category = new Category();
             category.setId(productDto.getCategoryId());
             product.setCategory(category);
         }
@@ -99,7 +99,7 @@ public class ProductServiceImpl implements ProductService {
 
         // Обновление категории если указана
         if (productDto.getCategoryId() != null) {
-            ProductCategory category = new ProductCategory();
+            Category category = new Category();
             category.setId(productDto.getCategoryId());
             existingProduct.setCategory(category);
         } else {

@@ -22,7 +22,7 @@ public class Sale {
     private Long id;
     
     @Column(name = "tenant_id", nullable = false)
-    private Integer tenantId;
+    private Long tenantId;
     
     @CreationTimestamp
     @Column(name = "sale_date")

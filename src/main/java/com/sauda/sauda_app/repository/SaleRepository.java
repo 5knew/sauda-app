@@ -12,21 +12,21 @@ import java.util.List;
 @Repository
 public interface SaleRepository extends JpaRepository<Sale, Long> {
     
-    List<Sale> findByTenantId(Integer tenantId);
+    List<Sale> findByTenantId(Long tenantId);
     
-    List<Sale> findByTenantIdAndEmployeeId(Integer tenantId, Long employeeId);
+    List<Sale> findByTenantIdAndEmployeeId(Long tenantId, Long employeeId);
     
-    List<Sale> findByTenantIdAndCustomerId(Integer tenantId, Long customerId);
+    List<Sale> findByTenantIdAndCustomerId(Long tenantId, Long customerId);
     
-    List<Sale> findByTenantIdAndPosTerminalId(Integer tenantId, Long posTerminalId);
+    List<Sale> findByTenantIdAndPosTerminalId(Long tenantId, Long posTerminalId);
     
     @Query("SELECT s FROM Sale s WHERE s.tenantId = :tenantId AND s.saleDate BETWEEN :startDate AND :endDate")
-    List<Sale> findByTenantIdAndSaleDateBetween(@Param("tenantId") Integer tenantId, 
+    List<Sale> findByTenantIdAndSaleDateBetween(@Param("tenantId") Long tenantId, 
                                                @Param("startDate") LocalDateTime startDate, 
                                                @Param("endDate") LocalDateTime endDate);
     
     @Query("SELECT s FROM Sale s WHERE s.tenantId = :tenantId ORDER BY s.saleDate DESC")
-    List<Sale> findByTenantIdOrderBySaleDateDesc(@Param("tenantId") Integer tenantId);
+    List<Sale> findByTenantIdOrderBySaleDateDesc(@Param("tenantId") Long tenantId);
 }
 
 
