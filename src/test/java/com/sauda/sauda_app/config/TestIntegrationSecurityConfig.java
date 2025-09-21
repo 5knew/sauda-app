@@ -22,7 +22,8 @@ public class TestIntegrationSecurityConfig {
                 .anyRequest().permitAll()
             )
             .httpBasic(httpBasic -> httpBasic.disable())
-            .formLogin(formLogin -> formLogin.disable());
+            .formLogin(formLogin -> formLogin.disable())
+            .sessionManagement(session -> session.sessionCreationPolicy(org.springframework.security.config.http.SessionCreationPolicy.STATELESS));
         return http.build();
     }
 }
