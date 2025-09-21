@@ -145,8 +145,10 @@ jobs:
         ${{ env.MAVEN_CMD }} clean test jacoco:report
       env:
         SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/sauda_db_test
+        SPRING_DATASOURCE_DRIVER: org.postgresql.Driver
         SPRING_DATASOURCE_USERNAME: postgres
         SPRING_DATASOURCE_PASSWORD: secret
+        SPRING_JPA_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
         SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://localhost:8081/realms/sauda-realm
     
     - name: 📊 Display Test Results
